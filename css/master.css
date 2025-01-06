@@ -1,0 +1,179 @@
+* {
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+}
+
+html {}
+
+body {
+  overflow-x: hidden;
+  background-color: black;
+}
+
+
+#webcontainer {}
+
+#hero {
+  height: 100vh;
+  width: 100vw;
+}
+
+#cube-wrap {
+  perspective: 1000px;
+  perspective-origin: 50% 50%;
+  position: relative;
+  top: 40%;
+  transform: translate(0, -50%);
+}
+
+#cube {
+  --front: rgb(45, 111, 255);
+  --back: rgb(25, 255, 75);
+  --right: rgb(255, 183, 48);
+  --left: rgb(255, 79, 79);
+  --up: rgb(248, 248, 248);
+  --down: rgb(255, 255, 48);
+  --inner: rgb(49, 49, 49);
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+
+.cube-rotate {
+  --cube-size: min(60vw, 30vh);
+  position: relative;
+  width: var(--cube-size);
+  height: var(--cube-size);
+  transform-style: preserve-3d;
+  transform: rotateX(-40deg) rotateY(-45deg);
+  /* animation: cube-3d-spin 60s linear infinite; */
+}
+
+@keyframes cube-3d-spin {
+  from { transform: rotateX(0deg) rotateY(0deg);}
+  to { transform: rotateX(-360deg) rotateY(-360deg);}
+}
+
+.cube-rotate > div {
+  position: absolute;
+  width: calc(var(--cube-size)*2 / 3);
+  height: var(--cube-size);
+  opacity: 1;
+  border: calc(var(--cube-size)/100) solid var(--inner);
+  border-radius: calc(var(--cube-size)/100);
+}
+
+.cube-squares {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-row: 1fr 1fr 1fr;
+}
+
+.rotating-face > .cube-squares {
+  grid-template-columns: 1fr;
+  grid-row: 1fr 1fr 1fr;
+}
+
+.full-face > .cube-squares {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row: 1fr 1fr 1fr;
+}
+
+.cube-squares > div {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border: calc(var(--cube-size)/100) solid var(--inner);
+}
+
+.cube-rotate .static-face:nth-child(1) {
+  transform: rotateY(0deg) translateZ(calc(var(--cube-size)/2));
+  background-color: var(--front);
+}
+.cube-rotate .static-face:nth-child(2) {
+  width: var(--cube-size);
+  transform: rotateY(90deg) translateZ(calc(var(--cube-size)/-2));
+  background-color: var(--left);
+}
+.cube-rotate .static-face:nth-child(3) {
+  transform: rotateY(180deg) translateZ(calc(var(--cube-size)/2));
+  background-color: var(--back);
+}
+.cube-rotate .static-face:nth-child(4) {
+  width: var(--cube-size);
+  transform: rotateY(-90deg) translateZ(calc(var(--cube-size)/-6));
+  background-color: var(--inner);
+}
+.cube-rotate .static-face:nth-child(5) {
+  transform: rotateX(-90deg) translateZ(calc(var(--cube-size)/2));
+  background-color: var(--down);
+}
+.cube-rotate .static-face:nth-child(6) {
+  transform: rotateX(90deg) translateZ(calc(var(--cube-size)/2));
+  background-color: var(--up);
+}
+
+@property --rotate {
+  syntax: '<number>';
+  initial-value: 0;
+  inherits: false;
+}
+
+.rotating-face {
+  --rotate: 0;
+  /* animation: cube-face-spin 10s linear infinite; */
+}
+
+@keyframes cube-face-spin {
+  from { --rotate: 0; }
+  to { --rotate: 360; }
+}
+
+.cube-rotate .rotating-face:nth-child(7) {
+  width: calc(var(--cube-size)/3);
+  transform: rotateY(0deg) rotateX(calc(1deg * var(--rotate))) translateZ(calc(var(--cube-size)/2)) translateX(calc(var(--cube-size)*2/3));
+  background-color: var(--front);
+}
+.cube-rotate .rotating-face:nth-child(8) {
+  width: var(--cube-size);
+  transform: rotateY(90deg) rotateZ(calc(1deg * var(--rotate))) translateZ(calc(var(--cube-size)/2));
+  background-color: var(--left);
+}
+.cube-rotate .rotating-face:nth-child(9) {
+  width: calc(var(--cube-size)/3);
+  transform: rotateY(180deg) rotateX(calc(-1deg * var(--rotate))) translateZ(calc(var(--cube-size)/2)) translateX(calc(var(--cube-size)*2/-3));
+  background-color: var(--back);
+}
+.cube-rotate .rotating-face:nth-child(10) {
+  width: var(--cube-size);
+  transform: rotateY(-90deg) rotateZ(calc(-1deg * var(--rotate))) translateZ(calc(var(--cube-size)/-6));
+  background-color: var(--inner);
+}
+.cube-rotate .rotating-face:nth-child(11) {
+  width: calc(var(--cube-size)/3);
+  transform: rotateX(calc(-90deg + 1deg * var(--rotate))) translateZ(calc(var(--cube-size)/2)) translateX(calc(var(--cube-size)*2/3));
+  background-color: var(--down);
+}
+.cube-rotate .rotating-face:nth-child(12) {
+  width: calc(var(--cube-size)/3);
+  transform: rotateX(calc(90deg + 1deg * var(--rotate))) translateZ(calc(var(--cube-size)/2)) translateX(calc(var(--cube-size)*2/3));
+  background-color: var(--up);
+}
+
+
+#style {
+  position: absolute;
+  width: 100vw;
+  top: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(0, -50%);
+}
