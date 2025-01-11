@@ -31,7 +31,7 @@ body {
 #cube {
   --front: rgb(45, 111, 255);
   --back: rgb(25, 255, 75);
-  --right: rgb(255, 183, 48);
+  --right: rgb(255, 153, 0);
   --left: rgb(255, 79, 79);
   --up: rgb(248, 248, 248);
   --down: rgb(255, 255, 48);
@@ -100,7 +100,7 @@ body {
 .cube-rotate .static-face:nth-child(2) {
   width: var(--cube-size);
   transform: rotateY(90deg) translateZ(calc(var(--cube-size)/-2));
-  background-color: var(--left);
+  background-color: var(--right);
 }
 .cube-rotate .static-face:nth-child(3) {
   transform: rotateY(180deg) translateZ(calc(var(--cube-size)/2));
