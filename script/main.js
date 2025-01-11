@@ -73,14 +73,16 @@ class RubixsCube extends Cube {
             this.face.U, this.face.D
         ];
 
+        this.squares_per_face = 8;
+
         this.position;
         this.solved_position = {
-            F: Array(5).fill(this.face.F),
-            B: Array(5).fill(this.face.B),
-            R: Array(5).fill(this.face.R),
-            L: Array(5).fill(this.face.L),
-            U: Array(5).fill(this.face.U),
-            D: Array(5).fill(this.face.D)
+            F: Array(this.squares_per_face).fill(this.face.F),
+            B: Array(this.squares_per_face).fill(this.face.B),
+            R: Array(this.squares_per_face).fill(this.face.R),
+            L: Array(this.squares_per_face).fill(this.face.L),
+            U: Array(this.squares_per_face).fill(this.face.U),
+            D: Array(this.squares_per_face).fill(this.face.D)
         }
 
         this.set_position(this.solved_position);
@@ -100,22 +102,22 @@ class RubixsCube extends Cube {
         let count = 0;
 
         [F, B, R, L, U, D].forEach((array) => {
-            if (array.length !== 5) {
-                console.error(`Rubix's cube: incorrect dimensions`);
+            if (array.length !== this.squares_per_face) {
+                console.error(`Rubix's cube: incorrect dimensions, every face must have exactly ${this.squares_per_face} squares, got ${array.length} for at least one of the faces`);
                 return false;
             }
 
             for (let i = 0; i < array.length; i++) {
                 if (!this.faces.includes(array[i])) {
-                    console.error(`Rubix's cube: incorrect position values, only the following values are valid: "F", "B", "R", "L", "U", "D"`);
+                    console.error(`Rubix's cube: incorrect position values, only the following values are valid: "F", "B", "R", "L", "U", "D", got ${array[i]}`);
                     return false;
                 }
                 count += count_shifts[array[i]];
             }
         })
 
-        if (count !== 555555) {
-            console.error(`Rubix's cube: incorrect square count, each there must be exactly 6 squares for every face`);
+        if (count !== 888888) {
+            console.error(`Rubix's cube: incorrect square count, each there must be exactly ${this.squares_per_face} squares for every face, got ${count}`);
             return false;
         }
 

@@ -10,16 +10,25 @@ rubixs_cube.set_position({
     "R",
     "L",
     "U",
-    "D"
+    "D",
+    "F",
+    "R",
+    "B"
     ],
     "B": [
     "F",
+    "F",
+    "B",
+    "B",
     "B",
     "B",
     "B",
     "B"
     ],
     "R": [
+    "F",
+    "R",
+    "R",
     "F",
     "R",
     "R",
@@ -31,6 +40,9 @@ rubixs_cube.set_position({
     "L",
     "L",
     "L",
+    "L",
+    "L",
+    "L",
     "L"
     ],
     "U": [
@@ -38,10 +50,16 @@ rubixs_cube.set_position({
     "U",
     "U",
     "U",
+    "U",
+    "U",
+    "U",
     "U"
     ],
     "D": [
     "F",
+    "D",
+    "D",
+    "D",
     "D",
     "D",
     "D",
