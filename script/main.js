@@ -21,9 +21,13 @@ class Cube {
         window.addEventListener('mousemove', (event) => {
             if (!this.mouse_down) return;
 
+            let transform_x = this.transform.x;
+
             this.transform = {
-                x: this.transform.x - (event.movementY / 5),
-                y: this.transform.y + (event.movementX / 5)
+                x: transform_x - (event.movementY / 5),
+                y: this.is_up_side_down(transform_x) ? 
+                   this.transform.y - (event.movementX / 5) : 
+                   this.transform.y + (event.movementX / 5)
             }
         })
     }
@@ -37,6 +41,10 @@ class Cube {
 
     set transform({x, y}) {
         this.element.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`;
+    }
+    
+    is_up_side_down(transform_x = this.transform.x) {
+        return 0.5 < (Math.abs(transform_x) + 90) / 360 % 1;
     }
 }
 
