@@ -161,10 +161,28 @@ class RubixsCube extends Cube {
             return false;
         }
 
-        // TODO: Make this matrix transformation work 
-        
+        // TODO: Optimize this rotate function
 
-        console.log(this.position[face])
+        let data = this.position[face];
+        data.splice(this.squares_per_face/2, 0, face);
+        
+        let matrix = [];
+        for (let i = 0; i < data.length; i++) {
+            let y = Math.floor((i) / this.cube_dimensions);
+            let x = i - y * this.cube_dimensions;
+            if (y === 0) matrix.push([]);
+
+            matrix[x][this.cube_dimensions - 1 - y] = data[i];
+        }
+
+        let result = [];
+        for (let i = 0; i < matrix.length; i++) {
+            result.push(...matrix[i]);
+        }
+
+        result.splice(this.squares_per_face/2, 1);
+
+        return result;
     }
 
     apply_move(move) {

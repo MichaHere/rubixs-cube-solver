@@ -67,4 +67,5 @@ rubixs_cube.set_position({
     ]
 })
 
-rubixs_cube.rotate_face(rubixs_cube.face.F);
+console.log(rubixs_cube.position.F);
+console.log(rubixs_cube.rotate_face(rubixs_cube.face.F))
