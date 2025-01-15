@@ -9,6 +9,38 @@ class Cube {
     }
 
     __init__() {
+        let _touch_pos = { x: 0, y: 0 };
+        function _update_touch_pos(touch) {
+            _touch_pos = {
+                x: touch.clientX,
+                y: touch.clientY
+            }
+        }
+
+        function update_transform(cube, movement_x, movement_y) {
+            let transform_x = cube.transform.x;
+
+            cube.transform = {
+                x: transform_x - (movement_y / 5),
+                y: cube.is_upsidedown(transform_x) ? 
+                   cube.transform.y - (movement_x / 5) : 
+                   cube.transform.y + (movement_x / 5)
+            }
+        }
+
+        this.element.addEventListener('touchstart', e => {
+            _update_touch_pos(e.touches[0]);
+        })
+
+        this.element.addEventListener('touchmove', e => {
+            let movementX = (e.touches[0].clientX - _touch_pos.x) / 2;
+            let movementY = (e.touches[0].clientY - _touch_pos.y) / 2;
+            _update_touch_pos(e.touches[0]);
+
+            update_transform(this, movementX, movementY)
+            console.log(movementX, movementY)
+        })
+
         this.element.addEventListener('mousedown', (event) => {
             event.preventDefault();
             this.mouse_down = true;
@@ -21,14 +53,7 @@ class Cube {
         window.addEventListener('mousemove', (event) => {
             if (!this.mouse_down) return;
 
-            let transform_x = this.transform.x;
-
-            this.transform = {
-                x: transform_x - (event.movementY / 5),
-                y: this.is_upsidedown(transform_x) ? 
-                   this.transform.y - (event.movementX / 5) : 
-                   this.transform.y + (event.movementX / 5)
-            }
+            update_transform(this, event.movementX, event.movementY);
         })
     }
 
@@ -73,7 +98,8 @@ class RubixsCube extends Cube {
             this.face.U, this.face.D
         ];
 
-        this.squares_per_face = 8;
+        this.cube_dimensions = 3
+        this.squares_per_face = this.cube_dimensions ** 2 - 1;
 
         this.position;
         this.solved_position = {
@@ -98,8 +124,7 @@ class RubixsCube extends Cube {
     }
 
     #valid_position({ F, B, R, L, U, D }) {
-        let count_shifts = { F: 1, B: 10, R: 100, L: 1000, U: 10000, D: 100000 }
-        let count = 0;
+        let count = { F: 0, B: 0, R: 0, L: 0, U: 0, D: 0 };
 
         [F, B, R, L, U, D].forEach((array) => {
             if (array.length !== this.squares_per_face) {
@@ -112,12 +137,12 @@ class RubixsCube extends Cube {
                     console.error(`Rubix's cube: incorrect position values, only the following values are valid: "F", "B", "R", "L", "U", "D", got ${array[i]}`);
                     return false;
                 }
-                count += count_shifts[array[i]];
+                count[array[i]]++
             }
         })
 
-        if (count !== 888888) {
-            console.error(`Rubix's cube: incorrect square count, each there must be exactly ${this.squares_per_face} squares for every face, got ${count}`);
+        if (!Object.values(count).every(value => { return value === this.squares_per_face})) {
+            console.error(`Rubix's cube: incorrect square count, each there must be exactly ${this.squares_per_face} squares for every face, got ${JSON.stringify(count)}`);
             return false;
         }
 
@@ -137,6 +162,7 @@ class RubixsCube extends Cube {
         }
 
         // TODO: Make this matrix transformation work 
+        
 
         console.log(this.position[face])
     }
