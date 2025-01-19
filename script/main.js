@@ -92,7 +92,7 @@ class RubixsCube extends Cube {
             R: "R", L: "L", 
             U: "U", D: "D" 
         };
-        this.faces = [
+        this.faces_array = [
             this.face.F, this.face.B, 
             this.face.R, this.face.L, 
             this.face.U, this.face.D
@@ -133,7 +133,7 @@ class RubixsCube extends Cube {
             }
 
             for (let i = 0; i < array.length; i++) {
-                if (!this.faces.includes(array[i])) {
+                if (!this.faces_array.includes(array[i])) {
                     console.error(`Rubix's cube: incorrect position values, only the following values are valid: "F", "B", "R", "L", "U", "D", got ${array[i]}`);
                     return false;
                 }
@@ -154,18 +154,26 @@ class RubixsCube extends Cube {
         this.position = position;
     }
 
-    // TODO: Make this private 
-    rotate_face(face, clockwise = true) {
-        if (!this.faces.includes(face)) {
+    rotate_face(face, direction = 1) {
+        if (!this.faces_array.includes(face)) {
             console.error(`Rubix's cube: incorrect face value, only the following values are valid: "F", "B", "R", "L", "U", "D"`);
             return false;
         }
 
-        // TODO: Optimize this rotate function
+        let result = this.matrix_transform(this.face_parse_matrix(face), direction);
+
+        result.splice(this.squares_per_face/2, 1);
+
+        return result;
+        
+    }
+
+    face_parse_matrix(face) {
+        // TODO: Optimize this rotate function 
 
         let data = this.position[face];
         data.splice(this.squares_per_face/2, 0, face);
-        
+
         let matrix = [];
         for (let i = 0; i < data.length; i++) {
             let y = Math.floor((i) / this.cube_dimensions);
@@ -175,14 +183,33 @@ class RubixsCube extends Cube {
             matrix[x][this.cube_dimensions - 1 - y] = data[i];
         }
 
+        return matrix;
+    }
+
+    /**
+     * Rotate a matrix
+     * @param {Array[]} matrix
+     * @param {Number} direction negative is clockwise, positive is counterclockwise 
+     */
+    matrix_transform(matrix, direction = 1) {
+        // TODO: Add directionality 
         let result = [];
         for (let i = 0; i < matrix.length; i++) {
             result.push(...matrix[i]);
         }
 
-        result.splice(this.squares_per_face/2, 1);
+        // TODO: Make this return a matrix 
 
         return result;
+    }
+
+    rotate_shift_squares(face, clockwise = true) {
+        if (!this.faces_array.includes(face)) {
+            console.error(`Rubix's cube: incorrect face value, only the following values are valid: "F", "B", "R", "L", "U", "D"`);
+            return false;
+        }
+
+        // TODO 
     }
 
     apply_move(move) {
@@ -191,9 +218,7 @@ class RubixsCube extends Cube {
             return;
         }
 
-        // TODO: Rotate the rotating face 
-
-        // TODO Make all the other faces rotate with 
+        // TODO: Add functionality 
 
     }
 }
