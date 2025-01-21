@@ -31,8 +31,8 @@ body {
 #cube {
   --front: rgb(45, 111, 255);
   --back: rgb(25, 255, 75);
-  --right: rgb(255, 153, 0);
-  --left: rgb(255, 79, 79);
+  --right: rgb(255, 79, 79);
+  --left: rgb(255, 153, 0);
   --up: rgb(248, 248, 248);
   --down: rgb(255, 255, 48);
   --inner: rgb(49, 49, 49);
