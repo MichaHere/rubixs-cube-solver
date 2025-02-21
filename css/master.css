@@ -9,7 +9,7 @@ html {}
 
 body {
   overflow-x: hidden;
-  background-color: black;
+  background-color: rgb(255, 255, 255);
 }
 
 
@@ -33,9 +33,9 @@ body {
   --back: rgb(25, 255, 75);
   --right: rgb(255, 79, 79);
   --left: rgb(255, 153, 0);
-  --up: rgb(248, 248, 248);
+  --up: rgb(255, 255, 255);
   --down: rgb(255, 255, 48);
-  --inner: rgb(49, 49, 49);
+  --inner: rgb(0, 0, 0);
   
   display: flex;
   flex-direction: row;
@@ -49,7 +49,7 @@ body {
   width: var(--cube-size);
   height: var(--cube-size);
   transform-style: preserve-3d;
-  transform: rotateX(-40deg) rotateY(-45deg);
+  transform: rotateX(-40deg) rotateY(45deg);
   /* animation: cube-3d-spin 60s linear infinite; */
 }
 
@@ -90,7 +90,7 @@ body {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  border: calc(var(--cube-size)/100) solid var(--inner);
+  border: calc(var(--cube-size)/50) solid var(--inner);
 }
 
 .cube-rotate .static-face:nth-child(1) {
@@ -123,11 +123,11 @@ body {
 @property --rotate {
   syntax: '<number>';
   initial-value: 0;
-  inherits: false;
+  inherits: true;
 }
 
 .rotating-face {
-  --rotate: 0;
+  /* --rotate: 0; */
   /* animation: cube-face-spin 10s linear infinite; */
 }
 

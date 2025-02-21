@@ -4,6 +4,8 @@ rubixs_cube = new RubixsCube(rubixs_cube_element);
 
 console.log(rubixs_cube.position);
 
+rubixs_cube.face_rotation_animation();
+
 rubixs_cube.set_position({
     "F": [
     "B",

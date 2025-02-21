@@ -1,5 +1,5 @@
 class Cube {
-    constructor (element, transform = {x: -40, y: -45}) {
+    constructor (element, transform = {x: -40, y: 45}) {
         this.element = element;
         this.transform = transform;
 
@@ -22,7 +22,7 @@ class Cube {
 
             cube.transform = {
                 x: transform_x - (movement_y / 5),
-                y: cube.is_upsidedown(transform_x) ? 
+                y: cube.#is_upsidedown(transform_x) ? 
                    cube.transform.y - (movement_x / 5) : 
                    cube.transform.y + (movement_x / 5)
             }
@@ -67,8 +67,37 @@ class Cube {
     set transform({x, y}) {
         this.element.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`;
     }
+
+    face_rotation_animation(duration = 5, rotation = 90) {
+        let current_rotation = 0;
+        let end_rotation = rotation;
+
+        let time = 0;
+        let easing = this.#easeOutQuad;
+
+        let element = this.element;
+        
+        let id = setInterval(frame, duration);
+
+        function frame() {
+            if (current_rotation >= end_rotation || time >= 1) {
+                clearInterval(id);
+                element.style.setProperty("--rotate", 0);
+                return;
+            }
+
+            time += 0.333/end_rotation;
+
+            current_rotation += easing(time);
+            element.style.setProperty("--rotate", current_rotation);
+        }
+    }
+
+    #easeOutQuad(t) {
+        return (1 - t) * (1 - t);
+    }
     
-    is_upsidedown(transform_x = this.transform.x) {
+    #is_upsidedown(transform_x = this.transform.x) {
         return 0.5 < (Math.abs(transform_x) + 90) / 360 % 1;
     }
 }
@@ -168,6 +197,11 @@ class RubixsCube extends Cube {
         
     }
 
+     //    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+     // => [[7, 4, 1], [8, 5, 2], [9, 5, 3]]
+
+     //    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+     // => [7, 4, 1, 8, 5, 2, 9, 5, 3]
     face_parse_matrix(face) {
         // TODO: Optimize this rotate function 
 
