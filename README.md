@@ -1,3 +1,5 @@
+![preview image](https://github.com/MichaHere/rubixs-cube-solver/blob/main/images/preview.png)
+
 # A visual rubics cube solver
 
 This code is in active development and is still in its testing face. 
