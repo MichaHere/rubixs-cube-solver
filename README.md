@@ -1,4 +1,6 @@
-![preview image](https://github.com/MichaHere/rubixs-cube-solver/blob/main/images/preview.png)
+<p align="center">
+    <img src="https://github.com/MichaHere/rubixs-cube-solver/blob/main/images/preview.webp" alt="preview image" height="250">
+</p>
 
 # A visual rubics cube solver
 
